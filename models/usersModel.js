@@ -9,18 +9,9 @@ const usersSchema = new Schema({
     trim: true,
     required: true,
   },
-  password: {
-    type: String,
-    required: true,
-  },
-  role: {
-    type: String,
-    enum: ["organizer", "attendee"],
-    required: true,
-  },
-  registeredEvents: {
-    type: [String],
-  },
+  password: { type: String, required: true },
+  role: { type: String, enum: ["organizer", "attendee"], required: true },
+  registeredEvents: { type: [String] },
 });
 
 module.exports = model("users", usersSchema);
