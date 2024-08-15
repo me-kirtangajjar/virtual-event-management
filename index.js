@@ -1,9 +1,15 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const rateLimit = require("express-rate-limit");
 require("dotenv").config();
-
 const app = express();
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+});
+
+app.use(limiter);
 app.use(express.json());
 
 mongoose
