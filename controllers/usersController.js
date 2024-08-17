@@ -72,7 +72,7 @@ const usersLogin = async (req, res) => {
     return res.status(200).send({
       message: "User logged in successfully",
       Authorization: jwt.sign(
-        { info: isUserExist._id },
+        { uid: isUserExist._id, role: isUserExist.role },
         process.env.JWTTOKENKEY,
         {
           expiresIn: "30d",
