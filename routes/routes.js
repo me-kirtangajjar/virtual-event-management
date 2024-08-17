@@ -25,7 +25,7 @@ router.post(
 router.post("/users/login", usersLogin);
 
 // GET, POST, PUT, DELETE /events for event management.
-router.get("/events", getEvents);
+router.get("/events", authMiddleware, getEvents);
 router.post("/events", authMiddleware, postEvents);
 router.put("/events", authMiddleware, putEvents);
 router.delete("/events", authMiddleware, deleteEvents);

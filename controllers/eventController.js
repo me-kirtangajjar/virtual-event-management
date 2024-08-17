@@ -1,9 +1,10 @@
-const moment = require("moment");
 const eventModel = require("../models/eventModel");
 
 const getEvents = async (req, res) => {
   try {
-    const allEvents = await eventModel.find();
+    const allEvents = await eventModel.find({
+      organizerId: req.body.organizerId,
+    });
     return res
       .status(200)
       .send({ msg: "Events fetched successfully", data: allEvents });
