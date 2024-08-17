@@ -30,8 +30,21 @@ const postEvents = async (req, res) => {
 };
 const putEvents = async (req, res) => {
   try {
-    const { title, description, date, time, organizerId, participants } =
-      req.body;
+    const { eventId, title, description, date, time } = req.body;
+
+    const isEventExist = await eventModel.findById(eventId);
+    if (!isEventExist) {
+      return res.status(404).send({ msg: "Event not found" });
+    }
+
+    await eventModel.findByIdAndUpdate(eventId, {
+      title,
+      description,
+      date,
+      time,
+    });
+
+    return res.status(200).send({ msg: "Event updated successfully" });
   } catch (error) {
     console.log(error);
     return res.status(500).send({ message: "Something went wrong" });
@@ -39,8 +52,7 @@ const putEvents = async (req, res) => {
 };
 const deleteEvents = async (req, res) => {
   try {
-    const { title, description, date, time, organizerId, participants } =
-      req.body;
+    const { title, description, date, time, organizerId } = req.body;
   } catch (error) {
     console.log(error);
     return res.status(500).send({ message: "Something went wrong" });
