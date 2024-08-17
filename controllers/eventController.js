@@ -52,7 +52,11 @@ const putEvents = async (req, res) => {
 };
 const deleteEvents = async (req, res) => {
   try {
-    const { title, description, date, time, organizerId } = req.body;
+    const { eventId } = req.body;
+
+    await eventModel.findByIdAndDelete(eventId);
+
+    return res.status(200).send({ msg: "Event deleted successfully" });
   } catch (error) {
     console.log(error);
     return res.status(500).send({ message: "Something went wrong" });

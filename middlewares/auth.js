@@ -2,13 +2,13 @@ const jwt = require("jsonwebtoken");
 
 const authMiddleware = async (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(" ")[1];
-
-    if (!token) {
+    if (!req.headers.authorization) {
       return res
         .status(401)
         .send({ message: "Token required! Please login to generate token" });
     }
+
+    const token = req.headers.authorization.split(" ")[1];
 
     jwt.verify(token, process.env.JWTTOKENKEY, (error, decodedString) => {
       if (error) {
