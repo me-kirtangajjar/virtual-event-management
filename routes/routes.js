@@ -1,7 +1,11 @@
 const router = require("express").Router();
 const { userRegisterValidation } = require("../validators/users.validators");
 const { validateRequest } = require("../middlewares/validateRequest");
-const { usersRegister, usersLogin } = require("../controllers/usersController");
+const {
+  usersRegister,
+  usersLogin,
+  registerForEvent,
+} = require("../controllers/usersController");
 const { authMiddleware } = require("../middlewares/auth");
 const {
   getEvents,
@@ -25,11 +29,16 @@ router.post(
 router.post("/users/login", usersLogin);
 
 // GET, POST, PUT, DELETE /events for event management.
-router.get("/events", authMiddleware, getEvents);
-router.post("/events", authMiddleware, postEvents);
-router.put("/events", authMiddleware, putEvents);
-router.delete("/events", authMiddleware, deleteEvents);
+router.get("/events", authMiddleware("organizer"), getEvents);
+router.post("/events", authMiddleware("organizer"), postEvents);
+router.put("/events", authMiddleware("organizer"), putEvents);
+router.delete("/events", authMiddleware("organizer"), deleteEvents);
 
 // POST /events/:id/register for attendee event registration.
+router.post(
+  "/events/:id/register",
+  authMiddleware("attendee"),
+  registerForEvent
+);
 
 module.exports = router;
